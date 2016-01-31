@@ -49,7 +49,21 @@ if(isset($_GET['tofind'])){
     if (empty($toFind)){
         $error_messages['tofind'] = "Název účtu k vyhledání chybí.";
     }
+
     if(empty($error_messages)) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $date = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
+
+        $link = mysqli_connect("localhost", "root", "", "getrepos");
+        if($link === false){
+            die("ERROR: Nepodařilo se připojit. " . mysqli_connect_error());
+        }
+        $sql = "INSERT INTO vyhledavani VALUES ('', '$ip', '$toFind', '$date')";
+        if(!mysqli_query($link, $sql)){
+            echo "ERROR: Nepodařilo se provést $sql. " . mysqli_error($link);
+        }
+        mysqli_close($link);
+
         $arr = get_from_github('https://api.github.com/users/' . $toFind . '/repos');
         $arr = json_decode($arr, true);
         //prisla-li zpet message, jmeno nema repo
@@ -57,11 +71,34 @@ if(isset($_GET['tofind'])){
             print "Nebyly nalezeny žádné veřejné repozitáře k zadanému uživatelskému jménu.";
         }
         else{
+            //var_dump($arr);
+            print "<table>
+            <th>Repozitář</th>
+            <th>Popis</th>
+            <th>Vytvořen</th>
+            <th>Poslední aktualizace</th>
+            <th>Odkaz</th>";
             //vyuziti pomocne funkce pro setrizeni $arr dle data vytvoreni rep
             usort($arr, "cmpcreateddown");
             foreach ($arr as $repo) {
-                print $repo['name'] . " " . $repo['created_at'] . "</br>";
+                if($repo['owner']['login']==$toFind) {
+                    $testDate = $repo['created_at'];
+                    $timestamp = date_create_from_format('Y-m-d\TH:i:s\Z', $testDate);
+                    $created = date("Y-m-d H:i:s", date_format($timestamp, 'U'));
+                    $testDate = $repo['updated_at'];
+                    $timestamp = date_create_from_format('Y-m-d\TH:i:s\Z', $testDate);
+                    $updated = date("Y-m-d H:i:s", date_format($timestamp, 'U'));
+                    print "<tr>
+                        <td>" . $repo['name'] . "</td>
+                        <td>" . $repo['description'] . "</td>
+                        <td>" . $created . "</td>
+                        <td>" . $updated . "</td>
+                        <td>" . $repo['html_url'] . "</td>
+                       </tr>
+                ";
+                }
             }
+            print "</table>";
         }
     }
 } ?>
