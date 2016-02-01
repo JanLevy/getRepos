@@ -113,6 +113,7 @@ if(isset($_GET['tofind'])){
     }
     ?>
     <input type="submit" value="Vyhledat!"/>
+    <p>Výpis vyhledávání <a href = '/vypis-vyhledavani.php/'>zde.</a></p>
 </form>
     </div>
     </body>
