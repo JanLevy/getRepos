@@ -1,0 +1,19 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+CREATE DATABASE IF NOT EXISTS `getrepos` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
+USE `getrepos`;
+
+CREATE TABLE IF NOT EXISTS `pass` (
+  `ID` int(2) NOT NULL AUTO_INCREMENT,
+  `user` varchar(16) COLLATE utf8_czech_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `vyhledavani` (
+  `ID` int(8) NOT NULL AUTO_INCREMENT,
+  `IP` varchar(39) COLLATE utf8_czech_ci NOT NULL,
+  `Dotaz` varchar(100) COLLATE utf8_czech_ci NOT NULL,
+  `Datum` datetime NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;

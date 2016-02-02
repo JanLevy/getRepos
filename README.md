@@ -1,28 +1,9 @@
 # getRepos
-Testing app
+A testing app for printing basic information about requested user's GitHub repositories.
 
--- phpMyAdmin SQL Dump
--- version 4.1.14
--- http://www.phpmyadmin.net
---
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
---
--- Databáze: `getrepos`
---
-
--- --------------------------------------------------------
-
---
--- Struktura tabulky `vyhledavani`
---
-
-CREATE TABLE IF NOT EXISTS `vyhledavani` (
-  `ID` int(8) NOT NULL AUTO_INCREMENT,
-  `IP` varchar(39) COLLATE utf8_czech_ci NOT NULL,
-  `Dotaz` varchar(100) COLLATE utf8_czech_ci NOT NULL,
-  `Datum` datetime NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
+The app has been tested on WampServer Version 2.5. (PHP 5.5.12, Apache 2.4.9., MySQL 5.6.17).
+After extracting the project in desired directory, create the necessary DB with the script located in the script.txt file.
+Don't forget to edit the DB connection data and your GitHub name in the config.ini file.
+In case of using and inserting a hash of another password in the DB, this needs to be hashed using the password_hash() php function.
+Default user and password in the deleting section are 'user' and 'heslo' (corresponding to 'pass' table in the DB).
+The app uses a basic user authentication against GitHub API, so only 60 requests per hour are supported.
