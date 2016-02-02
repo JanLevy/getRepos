@@ -8,8 +8,10 @@ function setHead($title){
         <head>
             <meta charset=\"UTF-8\">
             <title>" . $title . "</title>
+            <link rel='stylesheet' type='text/css' href='/stylesheet.css' />
         </head>
-        <body>";
+        <body>
+        <div id='container'>";
 }
 
 /*
@@ -30,7 +32,8 @@ function setMenu(){
  */
 function setFooter(){
     echo "
-        <div>
+        </div>
+        <div id='footer'>
             '&copy;' GetRepos 2016
         </div>
     </body>

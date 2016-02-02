@@ -1,6 +1,6 @@
 <?php
 include 'library.php';
-define("ON_PAGE", 3);
+define("ON_PAGE", 10);
 
 /*
  * Overi, ze zadany parametr je cislo, pripadne uzivatele vrati na 1. stranu seznamu
@@ -79,6 +79,7 @@ function setPagesLinks(){
     $max = getMax();
     $page = getPage();
 
+    echo "<div class='content'>";
     if(ON_PAGE < $max) {
         if ($page > 1) {
             printLinksDown($page);
@@ -89,6 +90,7 @@ function setPagesLinks(){
     if($page < ($max / ON_PAGE)) {
         printLinksUp($page, $max);
     }
+    echo "</div>";
 }
 
 /*
@@ -105,9 +107,17 @@ function printSearches(){
         echo "ERROR: Nepodařilo se provést $sql. " . mysqli_error($query['link']);
     } else {
         if (mysqli_num_rows($res) > 0) {
+            echo "<div class='content'>
+                <table>
+                <th>Uživatel</th>
+                <th>Dotaz</th>
+                <th>Datum a čas</th>";
             while($row = mysqli_fetch_assoc($res)) {
-                echo "Uživatel " . $row["IP"]. " položil dotaz na \"" . $row["Dotaz"]. "\" dne " . $row["Datum"]. ".<br>";
+                echo "<tr><td>" . $row["IP"]. "</td>
+                    <td>\"" . $row["Dotaz"]. "\"</td>
+                    <td>" . $row["Datum"]. "</td></tr>";
             }
+            echo "</table></div>";
         } else {
             echo "Nepodařilo se nalézt žádné vyhledávání.";
         }

@@ -94,7 +94,7 @@ function handleGet(){
  * Vytiskne seznam repozitaru
  */
 function printRepos($arr, $toFind){
-    print "<table>
+    print "<div class='content'><table>
         <th>Repozitář</th>
         <th>Popis</th>
         <th>Vytvořen</th>
@@ -118,7 +118,7 @@ function printRepos($arr, $toFind){
                 </tr>";
         }
     }
-    print "</table>";
+    print "</table></div>";
 }
 
 /*
@@ -127,18 +127,18 @@ function printRepos($arr, $toFind){
 function setSearchForm(){
     global $error_messages;
     echo "
-        <div>
-        <form method='get' action='/index.php'>
-        <input type='text' name='tofind' value='' id='tofind' />";
+        <div id='search' class='content'>
+        <form method='get' action='/index.php'>";
 
     if(isset($error_messages)){
-        echo "<label for='tofind'>" . $error_messages . "</label>";
+        echo "<label for='tofind'> " . $error_messages . "</label>";
         unset($GLOBALS['error_messages']);
     } else{
-        echo "<label for='tofind'>Zadejte název účtu k vyhledání.</label>";
+        echo "<label for='tofind'> Zadejte název účtu k vyhledání:</label>";
     }
 
     echo "
+        <input type='text' name='tofind' value='' id='tofind' />
         <input type='submit' value='Vyhledat!'/>
         </form>
         </div>";
