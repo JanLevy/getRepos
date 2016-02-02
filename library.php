@@ -1,5 +1,8 @@
 <?php
 
+/*
+ * Nastavi head stranky
+ */
 function setHead($title){
     echo "
         <head>
@@ -9,7 +12,9 @@ function setHead($title){
         <body>";
 }
 
-
+/*
+ * Vytiskne menu stranky
+ */
 function setMenu(){
     echo "
     <ul>
@@ -19,6 +24,10 @@ function setMenu(){
     </ul>
     ";
 }
+
+/*
+ * Vytiskne paticku stranky
+ */
 function setFooter(){
     echo "
         <div>
@@ -28,6 +37,9 @@ function setFooter(){
     ";
 }
 
+/*
+ * Vrati vysledek dotazu proti databazi z configu a odkaz na spojeni
+ */
 function dbQuery($sql){
     $config = parse_ini_file('/config.ini');
     $server = $config['server'];

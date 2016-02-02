@@ -2,8 +2,12 @@
 include 'library.php';
 define("ON_PAGE", 3);
 
+/*
+ * Overi, ze zadany parametr je cislo, pripadne uzivatele vrati na 1. stranu seznamu
+ */
 function checkInt($arg) {
     $arg = (int) $arg;
+
     if (is_numeric($arg)) {
         return $arg;
     }
@@ -11,10 +15,14 @@ function checkInt($arg) {
     return 1;
 }
 
+/*
+ * Vrati pocet zaznamu v DB o vyhledavani
+ */
 function getMax(){
     $sql = "SELECT COUNT(*) FROM vyhledavani";
     $query = dbQuery($sql);
     $num = $query['query'];
+
     if(!$num){
         $max = 0;
     } else{
@@ -24,6 +32,9 @@ function getMax(){
     return $max;
 }
 
+/*
+ * Priradi stranku ve strankovanem seznamu
+ */
 function getPage(){
     if(!isset($_GET["page"])){
         $page = 1;
@@ -34,6 +45,9 @@ function getPage(){
     return $page;
 }
 
+/*
+ * Vytiskne odkazy na stranky s nizsim cislem, nez je to aktualni
+ */
 function printLinksDown($page){
     echo "<a href='/vypis-vyhledavani.php/?page=1'>&lt;&lt;</a>";
     echo "<a href='/vypis-vyhledavani.php/?page=" . ($page - 1) . "'> &lt;</a>";
@@ -45,6 +59,9 @@ function printLinksDown($page){
     }
 }
 
+/*
+ * Vytiskne odkazy na stranky s vyzsim cislem, nez je to aktualni
+ */
 function printLinksUp($page, $max){
     for($i = 1; $i < 4; $i++) {
         if(($page + $i) <= ceil($max / ON_PAGE)) {
@@ -55,20 +72,28 @@ function printLinksUp($page, $max){
     echo "<a href='/vypis-vyhledavani.php/?page=".ceil($max / ON_PAGE)."' >&gt;&gt;</a>";
 }
 
+/*
+ * Vytiskne odkazy na ostatni stranky strankovaneho seznamu
+ */
 function setPagesLinks(){
     $max = getMax();
     $page = getPage();
+
     if(ON_PAGE < $max) {
         if ($page > 1) {
             printLinksDown($page);
         }
         echo " " . $page;
     }
+
     if($page < ($max / ON_PAGE)) {
         printLinksUp($page, $max);
     }
 }
 
+/*
+ * Pro aktualni stranku ze seznamu vytiskne zaznamy v DB o vyhledavani
+ */
 function printSearches(){
     $page = getPage();
     $by = (ON_PAGE * ($page - 1));
