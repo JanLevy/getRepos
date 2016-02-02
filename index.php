@@ -42,7 +42,6 @@ function cmpcreateddown(array $a, array $b) {
     </head>
     <body>
 <?php
-
 if(isset($_GET['tofind'])){
 
     $toFind = htmlspecialchars(trim($_GET['tofind']));
@@ -103,7 +102,7 @@ if(isset($_GET['tofind'])){
     }
 } ?>
 <div>
-<form method="get" action="index.php">
+<form method="get" action="/index.php">
     <input type="text" name="tofind" value="" id="get" />
     <?php
     if(isset($error_messages['tofind'])){

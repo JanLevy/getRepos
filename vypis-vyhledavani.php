@@ -8,7 +8,7 @@ function right_int($arg) {
     // v případě, že $arg neprojde kontrolou, bude naše $page 1 => začátek
     return 1;
 }
-define ("ON_PAGE", 5);
+define ("ON_PAGE", 10);
 ?>
 
 <head>
@@ -55,8 +55,6 @@ if(ON_PAGE < $max) {
         echo "<a href='/vypis-vyhledavani.php/?page=1'>&lt;&lt;</a>";
         echo "<a href='/vypis-vyhledavani.php/?page=" . ($page - 1) . "'> &lt;</a>";
 
-        // PŘEDCHOZÍ - CYKLUS
-        // vypíše 3 předchozí stránky
         for ($i = 4; $i > 0; $i--) {
             if (($page - $i) >= 1) {
                 echo "<a href='/vypis-vyhledavani.php/?page=" . ($page - $i) . "'> " . ($page - $i) . "</a>";
