@@ -3,16 +3,18 @@ include 'library.php';
 $error_messages = null;
 
 //funkce pro ziskani JSON seznamu repozitaru z pozadovane URL
-function get_from_github($url) {
+function getFromGithub($url) {
     try {
         $ch = curl_init();
         if(FALSE === $ch){
             throw new Exception('failed to initialize');
         }
+        $config = parse_ini_file('/config.ini');
+        $account = $config['account'];
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'JanLevy');
+        curl_setopt($ch, CURLOPT_USERAGENT, $account);
         $result = curl_exec($ch);
         if (FALSE === $result) {
             throw new Exception(curl_error($ch), curl_errno($ch));
@@ -30,7 +32,7 @@ function get_from_github($url) {
 }
 
 //pomocna funkce pro serazeni sestupne podle data vytvoreni repozitare
-function cmpCreatedDown(array $a, array $b) {
+function orderDesc(array $a, array $b) {
     if ($a['created_at'] > $b['created_at']) {
         return -1;
     } else if ($a['created_at'] < $b['created_at']) {
@@ -62,43 +64,46 @@ function handleGet(){
             }
             mysqli_close($query['link']);
 
-            $arr = get_from_github('https://api.github.com/users/' . $toFind . '/repos');
+            $arr = getFromGithub('https://api.github.com/users/' . $toFind . '/repos');
             $arr = json_decode($arr, true);
             //prisla-li zpet message, jmeno nema repo
             if(isset($arr['message'])){
                 print "Nebyly nalezeny žádné veřejné repozitáře k zadanému uživatelskému jménu.";
             }
             else{
-                //var_dump($arr);
-                print "<table>
+                printRepos($arr, $toFind);
+            }
+        }
+    }
+}
+
+function printRepos($arr, $toFind){
+    print "<table>
             <th>Repozitář</th>
             <th>Popis</th>
             <th>Vytvořen</th>
             <th>Poslední aktualizace</th>";
-                //vyuziti pomocne funkce pro setrizeni $arr dle data vytvoreni rep
-                usort($arr, "cmpCreatedDown");
-                foreach ($arr as $repo) {
-                    if($repo['owner']['login']==$toFind) {
-                        $testDate = $repo['created_at'];
-                        $timestamp = date_create_from_format('Y-m-d\TH:i:s\Z', $testDate);
-                        $created = date("Y-m-d H:i:s", date_format($timestamp, 'U'));
-                        $testDate = $repo['updated_at'];
-                        $timestamp = date_create_from_format('Y-m-d\TH:i:s\Z', $testDate);
-                        $updated = date("Y-m-d H:i:s", date_format($timestamp, 'U'));
-                        $url = $repo['html_url'];
-                        print "<tr>
+    //vyuziti pomocne funkce pro setrizeni $arr dle data vytvoreni repo
+    usort($arr, "orderDesc");
+
+    foreach ($arr as $repo) {
+        if($repo['owner']['login']==$toFind) {
+            $testDate = $repo['created_at'];
+            $timestamp = date_create_from_format('Y-m-d\TH:i:s\Z', $testDate);
+            $created = date("Y-m-d H:i:s", date_format($timestamp, 'U'));
+            $testDate = $repo['updated_at'];
+            $timestamp = date_create_from_format('Y-m-d\TH:i:s\Z', $testDate);
+            $updated = date("Y-m-d H:i:s", date_format($timestamp, 'U'));
+            $url = $repo['html_url'];
+            print "<tr>
                         <td><a href='\" . $url . \"'>" . $repo['name'] . "</a></td>
                         <td>" . $repo['description'] . "</td>
                         <td>" . $created . "</td>
                         <td>" . $updated . "</td>
-                       </tr>
-                ";
-                    }
-                }
-                print "</table>";
-            }
+                       </tr>";
         }
     }
+    print "</table>";
 }
 
 //funkce pro výpis vyhledávacího formuláře

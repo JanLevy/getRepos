@@ -48,9 +48,9 @@ function handlePost(){
     }
 }
 
-function pridejForm($form){
+function addForm($form){
     switch ($form){
-        case 'smazat':
+        case 'delete':
             echo "
             <form method='post' action='/promazavac.php'>
             <p>Chci smazat vyhledávání starší <input type='number' name='todelete' min='0'> hodin.</p>
@@ -58,7 +58,7 @@ function pridejForm($form){
             <input type='submit' value='Smazat!'/>
         </form> ";
             break;
-        case 'prihlasit':
+        case 'login':
             echo"
             <form method='post' action='/promazavac.php'>
             <p>Uživatelské jméno: <input type='text' name='user' value=''/></p>
@@ -67,7 +67,7 @@ function pridejForm($form){
             <input type='submit' value='Prihlásit!'/>
             </form>";
             break;
-        case 'odhlasit':
+        case 'logout':
             echo"
             <form method='post' action=''/promazavac.php'>
                 <input type='hidden' name='switch' value='logout' />
@@ -80,10 +80,10 @@ function pridejForm($form){
 function setContent(){
     if(isset($_SESSION['user'])){
         echo "Přihlášen uživatel " . $_SESSION['user'] . ".";
-        pridejForm("smazat");
-        pridejForm("odhlasit");
+        addForm("delete");
+        addForm("logout");
     } else {
-        pridejForm("prihlasit");
+        addForm("login");
     }
 }
 

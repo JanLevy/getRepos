@@ -13,7 +13,7 @@ function setHead($title){
 function setMenu(){
     echo "
     <ul>
-        <li><a href = '/index.php/'>Vyhledávání repoizitářů</a></li>
+        <li><a href = '/index.php/'>Vyhledávání repozitářů</a></li>
         <li><a href = '/vypis-vyhledavani.php/'>Výpis vyhledávání</a></li>
         <li><a href = '/promazavac.php/'>Promazávání výpisu</a></li>
     </ul>
@@ -29,7 +29,12 @@ function setFooter(){
 }
 
 function dbQuery($sql){
-    $link = mysqli_connect("localhost", "root", "", "getrepos");
+    $config = parse_ini_file('/config.ini');
+    $server = $config['server'];
+    $user = $config['user'];
+    $password = $config['password'];
+    $db = $config['db'];
+    $link = mysqli_connect($server, $user, $password, $db);
     if($link === false){
         die("ERROR: Nepodařilo se připojit. " . mysqli_connect_error());
     }

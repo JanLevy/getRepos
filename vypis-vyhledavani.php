@@ -34,7 +34,7 @@ function getPage(){
     return $page;
 }
 
-function vypisOdkazyNaNizsi($page){
+function printLinksDown($page){
     echo "<a href='/vypis-vyhledavani.php/?page=1'>&lt;&lt;</a>";
     echo "<a href='/vypis-vyhledavani.php/?page=" . ($page - 1) . "'> &lt;</a>";
 
@@ -45,7 +45,7 @@ function vypisOdkazyNaNizsi($page){
     }
 }
 
-function vypisOdkazyNaVyssi($page, $max){
+function printLinksUp($page, $max){
     for($i = 1; $i < 4; $i++) {
         if(($page + $i) <= ceil($max / ON_PAGE)) {
             echo "<a href='/vypis-vyhledavani.php/?page=".($page+$i)."'> ".($page+$i)."</a>";
@@ -55,26 +55,26 @@ function vypisOdkazyNaVyssi($page, $max){
     echo "<a href='/vypis-vyhledavani.php/?page=".ceil($max / ON_PAGE)."' >&gt;&gt;</a>";
 }
 
-function setOdkazyNaStranky(){
+function setPagesLinks(){
     $max = getMax();
     $page = getPage();
     if(ON_PAGE < $max) {
         if ($page > 1) {
-            vypisOdkazyNaNizsi($page);
+            printLinksDown($page);
         }
         echo " " . $page;
     }
     if($page < ($max / ON_PAGE)) {
-        vypisOdkazyNaVyssi($page, $max);
+        printLinksUp($page, $max);
     }
 }
 
-function vypisVyhledavani(){
+function printSearches(){
     $page = getPage();
     $by = (ON_PAGE * ($page - 1));
     $sql = "SELECT * FROM vyhledavani ORDER BY Datum desc LIMIT ".ON_PAGE." OFFSET " . $by ;
     $query = dbQuery($sql);
-    $res=$query['query'];
+    $res = $query['query'];
 
     if(!$res){
         echo "ERROR: Nepodařilo se provést $sql. " . mysqli_error($query['link']);
@@ -92,8 +92,8 @@ function vypisVyhledavani(){
 
 setHead("Výpis vyhledávání repozitářů z Git Hubu");
 setMenu();
-vypisVyhledavani();
-setOdkazyNaStranky();
+printSearches();
+setPagesLinks();
 setFooter();
 
 
