@@ -30,8 +30,10 @@ CREATE TABLE IF NOT EXISTS `vyhledavani` (
 -- Option with model data
 
     SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-    SET time_zone = "+00:00";
+    CREATE DATABASE IF NOT EXISTS `getrepos` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
+    USE `getrepos`;
 
+    DROP TABLE IF EXISTS `pass`;
     CREATE TABLE IF NOT EXISTS `pass` (
       `ID` int(2) NOT NULL AUTO_INCREMENT,
       `user` varchar(16) COLLATE utf8_czech_ci NOT NULL,
@@ -42,20 +44,16 @@ CREATE TABLE IF NOT EXISTS `vyhledavani` (
     INSERT INTO `pass` (`ID`, `user`, `password`) VALUES
     (1, 'user', '$2y$10$REC7n.PFRxazbOJEqQU9g.0kGF..ti672q7D9MrTfvUfUR6KHOKlS');
 
+    DROP TABLE IF EXISTS `vyhledavani`;
     CREATE TABLE IF NOT EXISTS `vyhledavani` (
       `ID` int(8) NOT NULL AUTO_INCREMENT,
       `IP` varchar(39) COLLATE utf8_czech_ci NOT NULL,
       `Dotaz` varchar(100) COLLATE utf8_czech_ci NOT NULL,
       `Datum` datetime NOT NULL,
       PRIMARY KEY (`ID`)
-    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=86 ;
+    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=107 ;
 
     INSERT INTO `vyhledavani` (`ID`, `IP`, `Dotaz`, `Datum`) VALUES
-    (33, '127.0.0.1', 'JanLevy', '2016-02-02 12:07:15'),
-    (34, '127.0.0.1', 'JanLevy', '2016-02-02 12:58:03'),
-    (35, '127.0.0.1', '', '2016-02-02 14:09:17'),
-    (36, '127.0.0.1', 'kcnd', '2016-02-02 14:10:43'),
-    (37, '127.0.0.1', 'jan-burianek', '2016-02-02 14:36:58'),
     (38, '127.0.0.1', 'kcnd', '2016-02-02 16:17:48'),
     (39, '127.0.0.1', 'laravel', '2016-02-02 16:17:57'),
     (40, '127.0.0.1', 'golang', '2016-02-02 16:19:53'),
@@ -103,4 +101,22 @@ CREATE TABLE IF NOT EXISTS `vyhledavani` (
     (82, '127.0.0.1', 'phpro', '2016-02-02 19:54:34'),
     (83, '127.0.0.1', 'JanLevy', '2016-02-02 20:08:07'),
     (84, '127.0.0.1', 'kcnd', '2016-02-02 21:05:23'),
-    (85, '127.0.0.1', 'PHPMailer', '2016-02-03 12:32:21');
+    (85, '127.0.0.1', 'PHPMailer', '2016-02-03 12:32:21'),
+    (86, '127.0.0.1', 'JanLevy', '2016-02-11 21:15:27'),
+    (90, '127.0.0.1', 'JanLevy', '2016-02-15 16:47:48'),
+    (91, '127.0.0.1', 'JanLevy', '2016-02-17 13:49:04'),
+    (92, '127.0.0.1', 'jan-burianek', '2016-02-17 13:53:34'),
+    (93, '127.0.0.1', 'kcnd', '2016-02-17 13:54:55'),
+    (94, '127.0.0.1', 'laravel', '2016-02-17 15:22:00'),
+    (95, '127.0.0.1', 'laravel', '2016-02-17 15:22:28'),
+    (96, '127.0.0.1', 'laravel', '2016-02-17 15:24:54'),
+    (97, '127.0.0.1', 'laravel', '2016-02-17 15:25:08'),
+    (98, '127.0.0.1', 'laravel', '2016-02-17 15:25:30'),
+    (99, '127.0.0.1', 'laravel', '2016-02-17 15:26:06'),
+    (100, '127.0.0.1', 'laravel', '2016-02-17 15:27:44'),
+    (101, '127.0.0.1', 'JanLevy', '2016-02-17 15:30:45'),
+    (102, '127.0.0.1', 'phpro', '2016-02-17 15:53:26'),
+    (103, '127.0.0.1', 'kcnd', '2016-02-18 11:01:18'),
+    (104, '127.0.0.1', 'kcnd', '2016-02-18 11:03:12'),
+    (105, '127.0.0.1', 'kcnd', '2016-02-18 11:03:30'),
+    (106, '127.0.0.1', 'laravel', '2016-02-18 11:03:35');
