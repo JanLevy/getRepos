@@ -101,7 +101,7 @@ class GitHubConnector
                 $updated = date("Y-m-d H:i:s", date_format($timestampUpdated, 'U'));
                 $url = $repo['html_url'];
                 print "<tr>
-                <td><a href='\" . $url . \"'>" . $repo['name'] . "</a></td>
+                <td><a href='" . $url . "'>" . $repo['name'] . "</a></td>
                 <td>" . $repo['description'] . "</td>
                 <td>" . $created . "</td>
                 <td>" . $updated . "</td>
